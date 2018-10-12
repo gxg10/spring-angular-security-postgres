@@ -54,6 +54,6 @@ export class HomeComponent implements OnInit {
           `Backend returned code ${error.status}, ` +
           `body was: ${error.error}`);
       }
-      return 'Something bad happened; please try again later.')
+      return 'Something bad happened; please try again later.';
     }
 }
