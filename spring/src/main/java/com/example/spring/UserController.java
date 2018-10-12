@@ -2,10 +2,7 @@ package com.example.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
@@ -30,7 +27,8 @@ public class UserController {
         return users;
     }
 
-    @RequestMapping("/login")
+
+    @PostMapping("/login")
     public boolean login(@RequestBody User user) {
 
         List<User> users = new ArrayList<>();
@@ -42,6 +40,11 @@ public class UserController {
             }
         }
         return false;
+    }
+
+    @PostMapping("/add")
+    public User addUser(@RequestBody User user) {
+        return userRepo.save(user);
     }
 
     @RequestMapping("/user")

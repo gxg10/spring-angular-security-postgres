@@ -20,11 +20,14 @@ export class HomeComponent implements OnInit {
   init() {
     const url = 'http://localhost:8082/user';
 
+    console.log('token is ' + sessionStorage.getItem('token'));
+
     const headers: HttpHeaders = new HttpHeaders({
         'Authorization': 'Basic ' + sessionStorage.getItem('token')
     });
 
-    if (sessionStorage.getItem('token').length > 10) {
+    if (sessionStorage.getItem('token') != null &&
+     sessionStorage.getItem('token').length > 10) {
         console.log('patatata ');
         const options = { headers: headers };
     this.http.post<Observable<Object>>(url, {}, options)
