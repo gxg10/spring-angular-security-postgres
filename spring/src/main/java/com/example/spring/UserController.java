@@ -30,17 +30,24 @@ public class UserController {
         return users;
     }
 
-//    @RequestMapping("/login")
-//    public boolean login(@RequestBody User user) {
-//
-//        return user.getUserName().equals("jack") && user.getPassword().equals("jack");
-//    }
-//
-//    @RequestMapping("/user")
-//    public Principal user(HttpServletRequest request) {
-//        String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
-//        return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
-//    }
+    @RequestMapping("/login")
+    public boolean login(@RequestBody User user) {
 
+        List<User> users = new ArrayList<>();
+        userRepo.findAll().forEach(users::add);
+        for (User u: users) {
+            if ((u.getUserName().equals(user.getUserName())) &&
+            (u.getPassword().equals(user.getPassword()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @RequestMapping("/user")
+    public Principal user(HttpServletRequest request) {
+        String authToken = request.getHeader("Authorization").substring("Basic".length()).trim();
+        return () -> new String(Base64.getDecoder().decode(authToken)).split(":")[0];
+    }
 
 }
