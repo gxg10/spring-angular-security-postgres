@@ -21,8 +21,8 @@ public class User {
     @Column
     private String password;
 
-    @Column
-    private Boolean enabled;
+//    @Column
+//    private Boolean enabled;
 
     public String getUserName() {
         return userName;

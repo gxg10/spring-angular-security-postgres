@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-create',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateComponent implements OnInit {
 
-  constructor() { }
+  user: any = {};
+
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+  }
+
+  onSubmit(form: NgForm) {
+    console.log(form.value);
+    console.log(this.user);
+    this.loginService.addUser(this.user)
+    .subscribe(
+      result => {
+        console.log(result);
+      }
+    );
+    this.user = {};
   }
 
 }

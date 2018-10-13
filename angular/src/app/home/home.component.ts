@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +12,13 @@ export class HomeComponent implements OnInit {
 
   userName: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
     this.init();
   }
 
   init() {
-    const url = 'http://localhost:8082/user';
-
     console.log('token is ' + sessionStorage.getItem('token'));
 
     const headers: HttpHeaders = new HttpHeaders({
@@ -30,16 +29,16 @@ export class HomeComponent implements OnInit {
      sessionStorage.getItem('token').length > 10) {
         console.log('patatata ');
         const options = { headers: headers };
-    this.http.post<Observable<Object>>(url, {}, options)
+        this.loginService.hello(options)
         .subscribe(
             data => {
+                console.log('data is '+data);
                 this.userName = data['name'];
             },
             error => {
                 if (error.status === 0) {
-                    alert('Unauthorized');
+                    alert('unauthoriz');
                 }
-                console.log(error.status);
             }
         );
     }
@@ -49,14 +48,5 @@ export class HomeComponent implements OnInit {
   logout() {
       sessionStorage.setItem('token', '');
   }
-  private handleError(error: HttpErrorResponse) {
-      if (error.error instanceof ErrorEvent) {
-        console.error('An error occurred:', error.error.message);
-      } else {
-        console.error(
-          `Backend returned code ${error.status}, ` +
-          `body was: ${error.error}`);
-      }
-      return 'Something bad happened; please try again later.';
-    }
+
 }

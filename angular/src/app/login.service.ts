@@ -10,29 +10,30 @@ export class LoginService {
 
   // model: any = {};
   isLoggedIn: Boolean;
+  urlUser = 'http://localhost:8082/user';
+  urlLogin = 'http://localhost:8082/login';
+  urlAdd = 'http://localhost:8082/add';
 
-  constructor(private http: HttpClient,
-              private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   login(model: any): Observable<any> {
     console.log(model);
-    const url = 'http://localhost:8082/login';
-    return this.http.post<Observable<boolean>>(url, {
+    return this.http.post<Observable<boolean>>(this.urlLogin, {
         userName: model.username,
         password: model.password
     });
-    // .subscribe(isValid => {
-    //     if (isValid) {
-    //         sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
-    //         this.router.navigate(['']);
-    //         this.isLoggedIn = true;
-    //         console.log('is logged ' + this.isLoggedIn)
-    //     } else {
-    //         alert('Authentication failed.');
-    //         this.isLoggedIn = false;
-    //     }
-    // });
-}
+  }
+
+  hello(options: any): Observable<any> {
+    return this.http.post<Observable<Object>>(this.urlUser, {}, options);
+  }
+
+  addUser(model: any): Observable<any> {
+    return this.http.post<Observable<Object>>(this.urlAdd, {
+      userName: model.username,
+      password: model.password
+    });
+  }
 
 
 }
